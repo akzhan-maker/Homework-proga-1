@@ -1,0 +1,28 @@
+def analyze_text(text):
+    vowels = "aeiouyаеёиоуыэюя"
+    used_vowels = ""
+    clean = ""
+    for c in text:
+        if c.isalpha() or c == " ":
+            clean += c.lower()
+    for c in clean:
+        if c in vowels and c not in used_vowels:
+            used_vowels += c
+
+    words = clean.split()
+    result = ""
+    for w in words:
+        if len(w) >= 5 and w[0] == w[-1]:
+            if w not in result:
+                result += w + " "
+
+    return len(used_vowels), result.strip()
+
+
+print("1 — вести текст:")
+choice = int(input())
+
+if choice == 1:
+    text = input("Введите текст: ")
+    print(analyze_text(text))
+
