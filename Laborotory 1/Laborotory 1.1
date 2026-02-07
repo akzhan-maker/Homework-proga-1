@@ -1,3 +1,4 @@
+#1
 def analyze_text(text):
     vowels = "aeiouyаеёиоуыэюя"
     used_vowels = ""
@@ -23,4 +24,14 @@ choice = int(input())
 if choice == 1:
     text = input("Введите текст: ")
     print(analyze_text(text))
+
+
+#2
+process_string = lambda s: " ".join([ word[::-1]
+    for word in s.split()
+    if not any(char.isdigit() for char in word)
+    and len(word) % 2 == 0])
+text_input = input("Введите строку: ")
+result = process_string(text_input)
+print("Результат:", result)
 
