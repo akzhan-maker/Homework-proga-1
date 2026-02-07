@@ -216,3 +216,38 @@ def replace_every_nth(text, n, char):
     return " ".join(result_words)
 text = "Apple 123 banana is tasty"
 print(replace_every_nth(text, 2, "*")) # Вывод:(A*p*e 123 *a*a*a is *a*t*)
+
+
+#14
+VOWELS = "aeiouyаеёиоуыэюя"
+filter_unique_words = lambda text: ", ".join([
+    word for word in text.split()
+    if len(set(word.lower())) > 3 and (
+        vowel_list := [c for c in word.lower() if c in VOWELS],
+        len(vowel_list) == len(set(vowel_list)))[1]])
+test_text = "Apple orange banana cucumber python melody"
+result = filter_unique_words(test_text)
+print(result)
+# Вывод: orange, cucumber, python, melody
+
+
+#15
+def word_pattern_sort(text):
+    words = text.split()
+    groups = {}
+    for word in words:
+        length = len(word)
+        if length not in groups:
+            groups[length] = []
+        groups[length].append(word)
+    VOWELS = "aeiouyаеёиоуыэюя"
+    result = []
+    for length in sorted(groups.keys()):
+        group = groups[length]
+        group.sort(key=lambda w: (
+            -sum(1 for char in w.lower() if char in VOWELS),
+            w.lower()))
+        result.extend(group)
+    return result
+test_text = "apple banana kiwi art egg orange"
+print(word_pattern_sort(test_text)) # Вывод:['art', 'egg', 'kiwi', 'apple', 'banana', 'orange']
