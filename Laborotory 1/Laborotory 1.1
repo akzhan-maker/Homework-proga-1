@@ -157,3 +157,14 @@ def alternate_case_blocks(text, n):
     return "".join(result)
 print(alternate_case_blocks("HelloopsWorld", 3))  # Вывод: "HELlooSWOrld"
 print(alternate_case_blocks("Python is great", 2))  # Вывод : "PYthONisGReaT"
+
+
+#10
+count_special_words = lambda text: sum(
+    1 for word in text.split()
+    if len(word) >= 5
+    and not word[0].isdigit()
+    and any(char.isdigit() for char in word))
+test_text = "Python3 version 3.10 is great but 1password and secret2024 are different"
+result = count_special_words(test_text)
+print(result)   # Вывод : 2
