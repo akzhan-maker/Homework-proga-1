@@ -59,4 +59,34 @@ def top_k_words(text, k):
     combined.sort()
     combined.sort(key=lambda x: x[1], reverse=True)
 
+    #4
+    def analyze_text(text):
+    clean_chars = ()
+
+    vowels = set("ауоыиэяюе")
+    found_vowels = set()
+    for char in clean_chars:
+        if char in vowels:
+            found_vowels.add(char)
+    count_vowels = len(found_vowels)
+
+    words = text.split()
+    found_words_list = []
+    seen_words = set()
+
+    for word in words:
+        clean_word = "".join(char.lower() for char in word if char.isalpha())
+
+        if len(clean_word) >= 5 and clean_word not in seen_words:
+            if clean_word and clean_word[0] == clean_word[-1]:
+                found_words_list.append(clean_word)
+                seen_words.add(clean_word)
+
+    words_str = " ".join(found_words_list)
+
+    return (count_vowels, words_str)
+text_example = "Арбуз бобАрбуз, Привет! КазаК и БараБан. Анна, потоП"
+print(analyze_text(text_example))
+
+
 
