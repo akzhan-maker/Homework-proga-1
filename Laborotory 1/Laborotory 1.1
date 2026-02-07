@@ -112,5 +112,12 @@ def compress_text(text):
     return "".join(result)
 print(compress_text("aaBBcDDD"))  # Вывод: a2B2cD3
 
-
-
+#6
+filter_words = lambda text: [
+    word for word in text.split()
+    if len(word) >= 4
+    and word.isalpha()
+    and len(set(word.lower())) == len(word)]
+test_string = "Apple juice is cold and tasty123 but melon is fresh"
+result = filter_words(test_string)
+print(result) # Вывод : ['juice', 'cold', 'melon', 'fresh']
