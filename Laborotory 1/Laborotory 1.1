@@ -137,3 +137,19 @@ def palindrome_words(text):
 
 text = "Дед идет по лесу и собирает грибы для казак"
 print(palindrome_words(text)) # Вывод :['казак', 'дед']
+
+#8
+VOWELS = "aeiouyаеёиоуыэюя"
+
+categorize_words = lambda text: " ".join([
+    word if any(char.isdigit() for char in word)
+    else "VOWEL" if word[0].lower() in VOWELS
+    else "CONSONANT"
+    for word in text.split()
+])
+
+# Проверка:
+test_text = "Apple b4nana orange tomato 123py"
+result = categorize_words(test_text)
+print(result)
+# Вывод: VOWEL b4nana VOWEL CONSONANT 123py
