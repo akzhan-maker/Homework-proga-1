@@ -35,3 +35,28 @@ text_input = input("Введите строку: ")
 result = process_string(text_input)
 print("Результат:", result)
 
+#3
+def top_k_words(text, k):
+    text = text.lower()
+    marks = '.,!?;:-()"'
+    clean_text = ""
+    for char in text:
+        if char not in marks:
+            clean_text += char
+    words = clean_text.split()
+    unique_words = []
+    counts = []
+    for w in words:
+        if w in unique_words:
+            index = unique_words.index(w)
+            counts[index] += 1
+        else:
+            unique_words.append(w)
+            counts.append(1)
+    combined = []
+    for i in range(len(unique_words)):
+        combined.append([unique_words[i], counts[i]])
+    combined.sort()
+    combined.sort(key=lambda x: x[1], reverse=True)
+
+
