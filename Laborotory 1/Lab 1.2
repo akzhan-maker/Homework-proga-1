@@ -1,7 +1,0 @@
-process_string = lambda s: " ".join([ word[::-1]                                   # 3. Переворачиваем
-    for word in s.split()
-    if not any(char.isdigit() for char in word)
-    and len(word) % 2 == 0])
-text_input = input("Введите строку: ")
-result = process_string(text_input)
-print("Результат:", result)
