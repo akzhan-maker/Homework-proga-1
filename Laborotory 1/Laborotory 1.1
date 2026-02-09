@@ -251,3 +251,21 @@ def word_pattern_sort(text):
     return result
 test_text = "apple banana kiwi art egg orange"
 print(word_pattern_sort(test_text)) # Вывод:['art', 'egg', 'kiwi', 'apple', 'banana', 'orange']
+
+
+#16
+def transform_list(nums):
+    new_list = []
+    for n in nums:
+        if n < 0:
+            continue
+        if n % 2 == 0:
+            new_list.append(n ** 2)
+        elif n > 10:
+            digits_sum = sum(int(digit) for digit in str(n))
+            new_list.append(digits_sum)
+        else:
+            new_list.append(n)
+    return new_list
+numbers = [4, -3, 11, 8, 15]
+print(transform_list(numbers))  # Вывод: [16, 2, 64, 6]
