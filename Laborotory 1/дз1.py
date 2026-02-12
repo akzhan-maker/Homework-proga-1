@@ -1,3 +1,4 @@
+
 #1
 def analyze_text(text):
     vowels = "aeiouyаеёиоуыэюя"
@@ -251,3 +252,78 @@ def word_pattern_sort(text):
     return result
 test_text = "apple banana kiwi art egg orange"
 print(word_pattern_sort(test_text)) # Вывод:['art', 'egg', 'kiwi', 'apple', 'banana', 'orange']
+
+#16
+def transform_list(nums):
+    result = []
+    for x in nums:
+        if x < 0:
+            continue
+        if x % 2 == 0:
+            result.append(x ** 2)
+        elif x > 10:
+            sum_digits = sum(int(digit) for digit in str(x))
+            result.append(sum_digits)
+        else:
+            result.append(x)
+    return result
+numbers = [-5, 4, 11, 7, 22, 3]
+print(transform_list(numbers)) # Вывод: [16, 2, 7, 484, 3]
+
+#17
+process_nums = lambda nums: list(map(lambda x: x**2, filter(lambda x:
+    (x % 3 == 0 or x % 5 == 0) and
+    (x % 15 != 0) and
+    (len(str(abs(x))) % 2 != 0),
+    nums)))
+test_list = [3, 5, 9, 15, 30, 100, 250, 1245]
+print( process_nums(test_list)) # Вывод: [9, 25, 81, 10000, 62500]
+
+#18
+def flatten_and_filter(lst):
+    flat_list = []
+    def extract(items):
+        for item in items:
+            if isinstance(item, list):
+                extract(item)
+            else:
+                flat_list.append(item)
+    extract(lst)
+    result = []
+    for n in flat_list:
+        if n > 0 and n % 4 != 0 and len(str(abs(n))) > 1:
+            result.append(n)
+    return sorted(result)
+nested = [1, [12, 13, -5], [[4, 21], 101], 7]
+print( flatten_and_filter(nested)) # Вывод: [13, 21, 101]
+
+#19
+find_even_pairs = lambda list1, list2: [
+    a for a, b in zip(list1, list2)
+    if a == b and a % 2 == 0]
+list_a = [2, 4, 10, 8, 14]
+list_b = [2, 5, 10, 7, 14]
+print( find_even_pairs(list_a, list_b)) # Вывод: [2, 10, 14]
+
+#20
+def max_subarray_sum(nums, k):
+    max_sum = -1
+    found = False
+    for i in range(len(nums) - k + 1):
+        window = nums[i: i + k]
+        is_valid = True
+        current_sum = 0
+        for x in window:
+            if x <= 0:
+                is_valid = False
+                break
+            current_sum += x
+        if is_valid:
+            if current_sum > max_sum:
+                max_sum = current_sum
+            found = True
+    return max_sum if found else None
+numbers = [1, 2, 3, -1, 4, 5, 0, 6, 7]
+k = 2
+result = max_subarray_sum(numbers, k)
+print( result)  # Вывод: 13
