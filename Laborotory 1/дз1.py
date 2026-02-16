@@ -445,3 +445,100 @@ def invert_unique(d):
 
 print(invert_unique({"a": 1, "b": 2, "c": 1, "d": 2, "e": 1}))
 # вывод: {1: ['a', 'c', 'e'], 2: ['b', 'd']}
+
+
+#32
+task_2 = lambda s: {x for x in s
+if x > (sum(s)/len(s) if s else 0) and x % 2 != 0 and x % 5 != 0}
+
+print(task_2({1, 3, 5, 11, 15, 21, 31}))
+# вывод: {21, 31}
+
+#33
+def merge_dicts_sum(d1, d2):
+    res = d1.copy()
+    for key, value in d2.items():
+        if key in res:
+            res[key] += value
+        else:
+            res[key] = value
+    return res
+
+print(merge_dicts_sum({"a": 10, "b": 20}, {"b": 5, "c": 7}))
+# вывод: {'a': 10, 'b': 25, 'c': 7}
+
+#34
+def filter_sets(sets_list):
+    res = []
+    for s in sets_list:
+        has_negative = False
+        has_even = False
+        for x in s:
+            if x < 0: has_negative = True
+            if x % 2 == 0: has_even = True
+
+        if len(s) > 3 and not has_negative and has_even:
+            res.append(s)
+    return res
+
+
+print(filter_sets([{1, 2, 3, 4}, {1, 2}, {-1, 2, 3, 4}, {1, 3, 5, 7}]))
+# вывод: [{1, 2, 3, 4}]
+
+#35
+task_5 = lambda d: sorted(d.keys(), key=lambda k: (-d[k], k))[:5]
+
+print(task_5({"apple": 10, "banana": 15, "cherry": 10, "date": 20, "elderberry": 5, "fig": 20}))
+# вывод: ['date', 'fig', 'banana', 'apple', 'cherry']
+
+
+#36
+def deep_sum(d):
+    total = 0
+    values = d.values() if isinstance(d, dict) else d
+    for v in values:
+        if isinstance(v, (int, float)):
+            total += v
+        elif isinstance(v, list):
+            total += deep_sum(v)
+        elif isinstance(v, dict):
+            total += deep_sum(v)
+    return total
+
+print(deep_sum({"a": 1, "b": [2, 3], "c": {"d": 4, "e": [5, 6]}}))
+# вывод: 21
+
+
+#37
+task_7 = lambda s1, s2: {x for x in (s1 ^ s2) if x % 2 == 0}
+
+print(task_7({1, 2, 3, 4}, {3, 4, 5, 6}))
+# вывод: {2, 6}
+
+#38
+def sort_dict_by_value_length(d):
+    items = list(d.items())
+    return sorted(items, key=lambda x: (len(x[1]), x[0]))
+
+print(sort_dict_by_value_length({"apple": "red", "banana": "yellow", "pear": "green"}))
+# вывод: [('apple', 'red'), ('pear', 'green'), ('banana', 'yellow')]
+
+
+#39
+def common_elements_all(sets_list):
+    if not sets_list: return set()
+    res = sets_list[0].copy()
+    for s in sets_list[1:]:
+        res &= s
+    return res
+
+print(common_elements_all([{1, 2, 3}, {2, 3, 4}, {3, 4, 5}]))
+# вывод: {3}
+
+
+#40
+task_10 = lambda d: {k: sorted([x for x in v if x % 2 != 0])
+for k, v in d.items() if any(x % 2 != 0 for x in v)}
+
+print(task_10({"a": [1, 2, 3, 4], "b": [2, 4, 6], "c": [9, 7, 5]}))
+# вывод: {'a': [1, 3], 'c': [5, 7, 9]}
