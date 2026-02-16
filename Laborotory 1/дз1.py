@@ -430,3 +430,18 @@ def analyze_strings_list(words):
 print(analyze_strings_list(['abc', 'abcd', 'a1', 'abc', 'defg']))
 # вывод: ['ABC', 'dcba', 'gfed']
 
+
+
+#DICT AND SET
+#31
+def invert_unique(d):
+    res = {}
+    for key, value in d.items():
+        if value not in res:
+            res[value] = []
+        if key not in res[value]:
+            res[value].append(key)
+    return res
+
+print(invert_unique({"a": 1, "b": 2, "c": 1, "d": 2, "e": 1}))
+# вывод: {1: ['a', 'c', 'e'], 2: ['b', 'd']}
