@@ -371,7 +371,8 @@ print(longest_increasing_sublist([1, 2, 3, 0, 4, 5, 6, 7, 2]))
 
 
 #25
-task_25 = lambda lists: [sum(lst) / len(lst) for lst in lists if len(lst) >= 3 and sum(lst) % 2 == 0]
+task_25 = lambda lists: [sum(lst) / len(lst) for lst in lists
+if len(lst) >= 3 and sum(lst) % 2 == 0]
 
 print(task_25([[1, 2, 3], [10, 20], [2, 2, 2, 2]]))
 # вывод: [2.0, 2.0]
@@ -410,7 +411,8 @@ print(moving_average([1, 2, 3, -1, 4, 5], 2))
 
 
 #29
-task_29 = lambda l1, l2: [x for x in l1 if x not in l2 and x > (sum(l1) / len(l1) if l1 else 0)]
+task_29 = lambda l1, l2: [x for x in l1
+if x not in l2 and x > (sum(l1) / len(l1) if l1 else 0)]
 
 print(task_29([10, 20, 30, 40], [10, 50]))
 # вывод: [30, 40]
@@ -560,7 +562,8 @@ print(group_by_length(["apple", "bat", "code", "apple", "cat", "python"]))
 
 
 #12
-task_12 = lambda strings: {s for s in strings if s.isalpha() and len(s) > 4 and len(set(s.lower())) == len(s)}
+task_12 = lambda strings: {s for s in strings
+if s.isalpha() and len(s) > 4 and len(set(s.lower())) == len(s)}
 
 print(task_12({"Python", "Java", "Swift", "Apple", "12345"}))
 # вывод: {'Python', 'Swift'}
