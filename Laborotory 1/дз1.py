@@ -588,8 +588,6 @@ def top_k_frequent(nums, k):
     counts = {}
     for n in nums:
         counts[n] = counts.get(n, 0) + 1
-
-    # Сортировка: сначала по частоте (убывание), потом по самому числу (возрастание)
     sorted_items = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
     return {item[0] for item in sorted_items[:k]}
 
@@ -599,7 +597,8 @@ print(top_k_frequent([1, 1, 2, 2, 3, 4, 4, 4], 2))
 
 
 #15
-task_15 = lambda d: {k: v for k, v in d.items() if v >= (sum(d.values())/len(d) if d else 0) and v % 2 != 0}
+task_15 = lambda d: {k: v for k, v in d.items()
+if v >= (sum(d.values())/len(d) if d else 0) and v % 2 != 0}
 
 print(task_15({"a": 10, "b": 15, "c": 7, "d": 21}))
 # вывод: {'b': 15, 'd': 21}
