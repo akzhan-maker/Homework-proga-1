@@ -58,7 +58,7 @@ def top_k_words(text, k):
     combined.sort(key=lambda x: x[1], reverse=True)  # Вывод :
 
 #4
-    def analyze_text(text):
+def analyze_text(text):
     clean_chars = ()
     vowels = set("ауоыиэяюе")
     found_vowels = set()
@@ -327,3 +327,106 @@ numbers = [1, 2, 3, -1, 4, 5, 0, 6, 7]
 k = 2
 result = max_subarray_sum(numbers, k)
 print( result)  # Вывод: 13
+
+
+#21
+task_21 = lambda strings: [s.upper() for s in strings
+if s.isalpha() and len(s) > 4 and len(set(s.lower())) == len(s)]
+
+print(task_21(["Python", "Java", "Apple", "Abcde", "Swift"]))
+# вывод: ['PYTHON', 'ABCDE', 'SWIFT']
+
+#22
+def group_by_parity_and_sort(nums):
+    evens = sorted([n for n in nums if n % 2 == 0])
+    odds = sorted([n for n in nums if n % 2 != 0])
+    return evens + odds
+
+print(group_by_parity_and_sort([5, 2, 9, 1, 4, 8, 3]))
+# вывод: [2, 4, 8, 1, 3, 5, 9]
+
+#23
+is_prime = lambda n: n > 1 and all(n % i != 0 for i in range(2, int(n**0.5) + 1))
+task_23 = lambda nums: [val for i, val in enumerate(nums)
+if is_prime(i) and val % 2 != 0 and val > (sum(nums) / len(nums) if nums else 0)]
+
+print(task_23([10, 2, 15, 7, 2, 20]))
+# вывод: [15]
+
+
+#24
+def longest_increasing_sublist(nums):
+    if not nums: return []
+    max_sub, current_sub = [], [nums[0]]
+    for i in range(1, len(nums)):
+        if nums[i] > nums[i-1]:
+            current_sub.append(nums[i])
+        else:
+            if len(current_sub) > len(max_sub): max_sub = current_sub
+            current_sub = [nums[i]]
+    return current_sub if len(current_sub) > len(max_sub) else max_sub
+
+print(longest_increasing_sublist([1, 2, 3, 0, 4, 5, 6, 7, 2]))
+# вывод: [0, 4, 5, 6, 7]
+
+
+#25
+task_25 = lambda lists: [sum(lst) / len(lst) for lst in lists if len(lst) >= 3 and sum(lst) % 2 == 0]
+
+print(task_25([[1, 2, 3], [10, 20], [2, 2, 2, 2]]))
+# вывод: [2.0, 2.0]
+
+
+#26
+def remove_duplicates_keep_last(nums):
+    res, seen = [], set()
+    for n in reversed(nums):
+        if n not in seen:
+            res.append(n)
+            seen.add(n)
+    return res[::-1]
+
+print(remove_duplicates_keep_last([1, 2, 1, 3, 2, 4]))
+# вывод: [1, 3, 2, 4]
+
+
+#27
+task_27 = lambda strings: sorted(strings, key=lambda s: (-len(s), s))[:5]
+
+print(task_27(['яблоко', 'арбуз', 'банан', 'еж', 'ананас', 'антилопа']))
+# вывод: ['антилопа', 'ананас', 'яблоко', 'арбуз', 'банан']
+
+
+#28
+def moving_average(nums, k):
+    res = []
+    for i in range(len(nums) - k + 1):
+        window = nums[i:i+k]
+        if all(x >= 0 for x in window): res.append(sum(window) / k)
+    return res
+
+print(moving_average([1, 2, 3, -1, 4, 5], 2))
+# вывод: [1.5, 2.5, 4.5]
+
+
+#29
+task_29 = lambda l1, l2: [x for x in l1 if x not in l2 and x > (sum(l1) / len(l1) if l1 else 0)]
+
+print(task_29([10, 20, 30, 40], [10, 50]))
+# вывод: [30, 40]
+
+
+#30
+def analyze_strings_list(words):
+    res, seen = [], set()
+    for s in words:
+        if any(c.isdigit() for c in s): continue
+        new_s = s[::-1] if len(s) % 2 == 0 else s.upper()
+        if new_s not in seen:
+            res.append(new_s)
+            seen.add(new_s)
+    return res
+
+print(analyze_strings_list(['abc', 'abcd', 'a1', 'abc', 'defg']))
+# вывод: ['ABC', 'dcba', 'gfed']
+
