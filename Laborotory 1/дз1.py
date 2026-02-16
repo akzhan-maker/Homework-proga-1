@@ -433,7 +433,7 @@ print(analyze_strings_list(['abc', 'abcd', 'a1', 'abc', 'defg']))
 
 
 #DICT AND SET
-#31
+#1
 def invert_unique(d):
     res = {}
     for key, value in d.items():
@@ -447,14 +447,14 @@ print(invert_unique({"a": 1, "b": 2, "c": 1, "d": 2, "e": 1}))
 # вывод: {1: ['a', 'c', 'e'], 2: ['b', 'd']}
 
 
-#32
+#2
 task_2 = lambda s: {x for x in s
 if x > (sum(s)/len(s) if s else 0) and x % 2 != 0 and x % 5 != 0}
 
 print(task_2({1, 3, 5, 11, 15, 21, 31}))
 # вывод: {21, 31}
 
-#33
+#3
 def merge_dicts_sum(d1, d2):
     res = d1.copy()
     for key, value in d2.items():
@@ -467,7 +467,7 @@ def merge_dicts_sum(d1, d2):
 print(merge_dicts_sum({"a": 10, "b": 20}, {"b": 5, "c": 7}))
 # вывод: {'a': 10, 'b': 25, 'c': 7}
 
-#34
+#4
 def filter_sets(sets_list):
     res = []
     for s in sets_list:
@@ -485,14 +485,14 @@ def filter_sets(sets_list):
 print(filter_sets([{1, 2, 3, 4}, {1, 2}, {-1, 2, 3, 4}, {1, 3, 5, 7}]))
 # вывод: [{1, 2, 3, 4}]
 
-#35
+#5
 task_5 = lambda d: sorted(d.keys(), key=lambda k: (-d[k], k))[:5]
 
 print(task_5({"apple": 10, "banana": 15, "cherry": 10, "date": 20, "elderberry": 5, "fig": 20}))
 # вывод: ['date', 'fig', 'banana', 'apple', 'cherry']
 
 
-#36
+#6
 def deep_sum(d):
     total = 0
     values = d.values() if isinstance(d, dict) else d
@@ -509,13 +509,13 @@ print(deep_sum({"a": 1, "b": [2, 3], "c": {"d": 4, "e": [5, 6]}}))
 # вывод: 21
 
 
-#37
+#7
 task_7 = lambda s1, s2: {x for x in (s1 ^ s2) if x % 2 == 0}
 
 print(task_7({1, 2, 3, 4}, {3, 4, 5, 6}))
 # вывод: {2, 6}
 
-#38
+#8
 def sort_dict_by_value_length(d):
     items = list(d.items())
     return sorted(items, key=lambda x: (len(x[1]), x[0]))
@@ -524,7 +524,7 @@ print(sort_dict_by_value_length({"apple": "red", "banana": "yellow", "pear": "gr
 # вывод: [('apple', 'red'), ('pear', 'green'), ('banana', 'yellow')]
 
 
-#39
+#9
 def common_elements_all(sets_list):
     if not sets_list: return set()
     res = sets_list[0].copy()
@@ -536,9 +536,118 @@ print(common_elements_all([{1, 2, 3}, {2, 3, 4}, {3, 4, 5}]))
 # вывод: {3}
 
 
-#40
+#10
 task_10 = lambda d: {k: sorted([x for x in v if x % 2 != 0])
 for k, v in d.items() if any(x % 2 != 0 for x in v)}
 
 print(task_10({"a": [1, 2, 3, 4], "b": [2, 4, 6], "c": [9, 7, 5]}))
 # вывод: {'a': [1, 3], 'c': [5, 7, 9]}
+
+
+#11
+def group_by_length(words):
+    res = {}
+    for w in words:
+        length = len(w)
+        if length not in res:
+            res[length] = []
+        if w not in res[length]:
+            res[length].append(w)
+    return res
+
+print(group_by_length(["apple", "bat", "code", "apple", "cat", "python"]))
+# вывод: {5: ['apple'], 3: ['bat', 'cat'], 4: ['code'], 6: ['python']}
+
+
+#12
+task_12 = lambda strings: {s for s in strings if s.isalpha() and len(s) > 4 and len(set(s.lower())) == len(s)}
+
+print(task_12({"Python", "Java", "Swift", "Apple", "12345"}))
+# вывод: {'Python', 'Swift'}
+
+
+#13
+def invert_dict_strict(d):
+    counts = {}
+    for v in d.values():
+        counts[v] = counts.get(v, 0) + 1
+
+    res = {}
+    for k, v in d.items():
+        if counts[v] == 1:
+            res[v] = k
+    return res
+
+
+print(invert_dict_strict({"a": 1, "b": 2, "c": 3, "d": 2}))
+# вывод: {1: 'a', 3: 'c'}
+
+
+#14
+def top_k_frequent(nums, k):
+    counts = {}
+    for n in nums:
+        counts[n] = counts.get(n, 0) + 1
+
+    # Сортировка: сначала по частоте (убывание), потом по самому числу (возрастание)
+    sorted_items = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
+    return {item[0] for item in sorted_items[:k]}
+
+
+print(top_k_frequent([1, 1, 2, 2, 3, 4, 4, 4], 2))
+# вывод: {1, 4}
+
+
+#15
+task_15 = lambda d: {k: v for k, v in d.items() if v >= (sum(d.values())/len(d) if d else 0) and v % 2 != 0}
+
+print(task_15({"a": 10, "b": 15, "c": 7, "d": 21}))
+# вывод: {'b': 15, 'd': 21}
+
+#16
+def update_counts(d, items):
+    for item in items:
+        if item in d:
+            d[item] += 1
+        else:
+            d[item] = 1
+    return d
+
+print(update_counts({"apple": 1}, ["apple", "banana", "apple"]))
+# вывод: {'apple': 3, 'banana': 1}
+
+
+#17
+task_17 = lambda s1, s2, s3: (s1 & s2) - s3
+
+print(task_17({1, 2, 3}, {2, 3, 4}, {3, 5}))
+# вывод: {2}
+
+#18
+def sort_dict_by_value_sum(d):
+    res = []
+    for k, v in d.items():
+        res.append((k, sum(v)))
+    return sorted(res, key=lambda x: (-x[1], x[0]))
+
+print(sort_dict_by_value_sum({"a": [1, 2], "b": [10], "c": [1, 2]}))
+# вывод: [('b', 10), ('a', 3), ('c', 3)]
+
+
+#19
+def filter_by_digit_sum(nums):
+    res = set()
+    for n in nums:
+        digit_sum = sum(int(d) for d in str(abs(n)))
+        if digit_sum % 2 == 0 and n % 2 != 0:
+            res.add(n)
+    return res
+
+print(filter_by_digit_sum({11, 13, 21, 22, 24, 111}))
+# вывод: {11, 111}
+
+#20
+task_20 = lambda d: sorted(d.keys(), key=lambda k: (d[k], len(k)))[:3]
+
+print(task_20({"long_key": 10, "short": 10, "abc": 5, "z": 20}))
+# вывод: ['abc', 'short', 'long_key']
