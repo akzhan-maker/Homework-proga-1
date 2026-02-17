@@ -16,6 +16,19 @@ with open("data_file", "r", encoding="utf-8") as f1:
     content = f1.read()
     print(content)
 
+#3
+text = input()
+words = text.split()
+with open("names-upper", "w", encoding="utf-8") as f1:
+    for word in words:
+        f1.write(word.upper() + "\n")
+
+print()
+with open("names-upper", "r", encoding="utf-8") as f1:
+    for line in f1:
+        print(line.strip().upper())
+
+
 
 
 
