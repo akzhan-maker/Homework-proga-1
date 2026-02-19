@@ -653,3 +653,5 @@ task_20 = lambda d: sorted(d.keys(), key=lambda k: (d[k], len(k)))[:3]
 
 print(task_20({"long_key": 10, "short": 10, "abc": 5, "z": 20}))
 # вывод: ['abc', 'short', 'long_key']
+
+#21
