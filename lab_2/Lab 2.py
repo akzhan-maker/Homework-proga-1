@@ -1,3 +1,4 @@
+'''
 #ex 1
 users = set()
 buy_count = 0
@@ -43,7 +44,6 @@ with open("report.txt", "w", encoding="utf-8") as r:
 print("Отчет құрылды: report.txt")
 with open("report.txt", "r", encoding="utf-8") as f:
      print(f.read())
-
 
 
 #ex2
@@ -174,3 +174,4 @@ with open('fraud_users.json', mode='w', encoding='utf-8') as f:
     json.dump({"fraud_users": suspicious_users}, f, indent=4)
 
 print("Анализ завершен. Файлы fraud_report.txt и fraud_users.json созданы.")
+'''
