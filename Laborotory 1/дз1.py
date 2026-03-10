@@ -904,3 +904,187 @@ def analyze_dict_keys(d):
 data = {"user name": 1, "p@ssword": 2, "id123": 3, "test": 4}
 print(analyze_dict_keys(data))
 # вывод: {'u', 's', 'e', 'r', 'n', 'a', 'm', 't'}
+
+
+#1
+import string
+
+def analyze_students(data):
+    vowels_set = set("aeiouyAEIOUY")
+    filtered_data = [s for s in data if not any(char.isdigit() for char in s["name"])]
+
+    processed_students = []
+    global_word_map = {}
+    all_global_vowels = set()
+
+    for student in filtered_data:
+        name = student["name"].title()
+
+        processed_grades = []
+        for g in student["grades"]:
+            if g <= 0:
+                continue
+            if g < 10 and g % 2 != 0:
+                processed_grades.append(sum(int(d) for d in str(g)))
+            elif g >= 10 and g % 2 == 0:
+                processed_grades.append(g ** 2)
+            else:
+                processed_grades.append(g)
+
+        all_comments_str = " ".join(student["comments"])
+        clean_text = all_comments_str.translate(str.maketrans('', '', string.punctuation)).lower()
+        words = clean_text.split()
+        unique_valid_words = set()
+        student_vowels = set()
+
+        for word in set(words):
+            if len(word) >= 4 and word != word[::-1]:
+                unique_valid_words.add(word)
+                for char in word:
+                    if char in vowels_set:
+                        student_vowels.add(char.lower())
+
+        for word in unique_valid_words:
+            global_word_map[word] = global_word_map.get(word, 0) + 1
+
+        all_global_vowels.update(student_vowels)
+
+        processed_students.append({
+            "name": name,
+            "processed_grades": processed_grades,
+            "valid_words": unique_valid_words,
+            "avg_grade": sum(processed_grades) / len(processed_grades) if processed_grades else 0
+        })
+
+    word_counts = {w: count for w, count in global_word_map.items() if count >= 2}
+    sorted_word_counts = dict(sorted(word_counts.items(), key=lambda x: (-x[1], x[0])))
+
+    sorted_by_avg = sorted(processed_students, key=lambda x: (-x["avg_grade"], x["name"]))
+    students_by_avg_names = [s["name"] for s in sorted_by_avg]
+
+    name_length_map = {}
+    for s in processed_students:
+        ln = len(s["name"])
+        if ln not in name_length_map:
+            name_length_map[ln] = []
+        if s["name"] not in name_length_map[ln]:
+            name_length_map[ln].append(s["name"])
+
+    return {
+        "students": [{"name": s["name"], "processed_grades": s["processed_grades"]} for s in processed_students],
+        "word_counts": sorted_word_counts,
+        "all_vowels": all_global_vowels,
+        "students_by_avg": students_by_avg_names,
+        "students_by_name_length": name_length_map
+    }
+
+data = [
+    {"name": "Alice123", "grades": [12, 9, 15, 8], "comments": ["Good work!", "Excellent effort."]},
+    {"name": "Alice", "grades": [12, 9, 15, 8], "comments": ["Good work!", "Excellent effort."]},
+    {"name": "Bob", "grades": [10, 7, 5], "comments": ["Good progress", "keep it up"]}
+]
+
+result = analyze_students(data)
+import pprint
+
+pprint.pprint(result)
+
+#2
+import string
+
+
+def analyze_orders(orders):
+    vowels_set = set("aeiouyAEIOUY")
+
+    filtered_orders = [o for o in orders if not any(char.isdigit() for char in o["customer"])]
+
+    processed_orders_data = []
+    global_word_map = {}
+    all_global_vowels = set()
+    all_unique_product_names = set()
+
+    for order in filtered_orders:
+        customer_name = order["customer"].title()
+
+        processed_items = []
+        for item in order["items"]:
+            if item["price"] <= 0:
+                continue
+
+            new_price = item["price"]
+
+            if item["price"] > 100 and item["quantity"] > 1:
+                new_price = item["price"] * item["quantity"]
+
+            if item["quantity"] % 2 != 0:
+                digit_sum = sum(int(d) for d in str(item["price"]) if d.isdigit())
+                new_price += round(digit_sum)
+
+            processed_items.append({
+                "name": item["name"],
+                "price": new_price,
+                "quantity": item["quantity"]})
+            all_unique_product_names.add(item["name"])
+
+        all_notes_str = " ".join(order["notes"])
+        clean_text = all_notes_str.translate(str.maketrans('', '', string.punctuation)).lower()
+        words = clean_text.split()
+
+        order_unique_words = set()
+        order_vowels = set()
+
+        for word in set(words):
+            if len(word) >= 4 and word != word[::-1]:
+                order_unique_words.add(word)
+                for char in word:
+                    if char in vowels_set:
+                        order_vowels.add(char.lower())
+
+        for word in order_unique_words:
+            global_word_map[word] = global_word_map.get(word, 0) + 1
+
+        all_global_vowels.update(order_vowels)
+
+        total_sum = sum(item["price"] for item in processed_items)
+
+        processed_orders_data.append({
+            "order_id": order["order_id"],
+            "customer": customer_name,
+            "processed_items": processed_items,
+            "total_sum": total_sum,
+            "item_count": len(processed_items)})
+
+    word_counts = {w: c for w, c in global_word_map.items() if c >= 2}
+    sorted_word_counts = dict(sorted(word_counts.items(), key=lambda x: (-x[1], x[0])))
+    sorted_by_total = sorted(processed_orders_data, key=lambda x: (-x["total_sum"], x["order_id"]))
+    orders_by_total_ids = [o["order_id"] for o in sorted_by_total]
+    orders_by_item_count = {}
+    for o in processed_orders_data:
+        cnt = o["item_count"]
+        if cnt not in orders_by_item_count:
+            orders_by_item_count[cnt] = []
+        if o["order_id"] not in orders_by_item_count[cnt]:
+            orders_by_item_count[cnt].append(o["order_id"])
+
+    return {
+        "orders": [{"order_id": o["order_id"], "customer": o["customer"], "processed_items": o["processed_items"]}
+                   for o in processed_orders_data],
+        "word_counts": sorted_word_counts,
+        "all_vowels": all_global_vowels,
+        "unique_products": all_unique_product_names,
+        "orders_by_total": orders_by_total_ids,
+        "orders_by_item_count": orders_by_item_count}
+example_orders = [
+    {"order_id": "A123",
+        "customer": "john_doe",
+        "items": [{"name": "Laptop", "price": 1000.0, "quantity": 2}, {"name": "Mouse", "price": 25.0, "quantity": 1}],
+        "notes": ["Deliver ASAP!", "Handle with care."]},
+        {"order_id": "B456",
+        "customer": "jane_smith",
+        "items": [{"name": "Phone", "price": 500.0, "quantity": 1}],
+        "notes": ["Deliver ASAP", "fragile"]}]
+
+result = analyze_orders(example_orders)
+import pprint
+
+pprint.pprint(result)
