@@ -655,3 +655,252 @@ print(task_20({"long_key": 10, "short": 10, "abc": 5, "z": 20}))
 # вывод: ['abc', 'short', 'long_key']
 
 #21
+def count_leaf_values(d):
+    count = 0
+    for value in d.values():
+        if isinstance(value, dict):
+            count += count_leaf_values(value)
+        else:
+            count += 1
+    return count
+
+data = {"a": 1, "b": {"c": 2, "d": [5, 6]}, "e": {"f": {"g": 3}}}
+print(count_leaf_values(data)) # вывод: 4
+
+#22
+filter_sets = lambda s1, s2: {x for x in s1 if x > (sum(s2) / len(s2)) and x not in s2}
+
+set_a = {10, 20, 30, 40, 5}
+set_b = {5, 15, 25}
+print(filter_sets(set_a, set_b)) # вывод: {40, 20, 30}
+
+
+#23
+def group_by_last_letter(words):
+    result = {}
+    for word in words:
+        last_letter = word[-1]
+        if last_letter not in result:
+            result[last_letter] = []
+        if word not in result[last_letter]:
+            result[last_letter].append(word)
+    return result
+
+words_list = ["apple", "pear", "banana", "grape", "apple", "door"]
+print(group_by_last_letter(words_list))
+# вывод: {'e': ['apple', 'grape'], 'r': ['pear', 'door'], 'a': ['banana']}
+
+
+#24
+def union_of_filtered_sets(sets_list):
+    final_set = set()
+    for s in sets_list:
+        filtered = {x for x in s if x > 10 and x % 2 != 0}
+        final_set = final_set.union(filtered)
+    return final_set
+
+list_of_sets = [{5, 11, 13}, {12, 15, 20}, {7, 21, 11}]
+print(union_of_filtered_sets(list_of_sets)) # вывод: {11, 13, 15, 21}
+
+#25
+import math
+
+process_dict = lambda d: {
+    k: math.prod([x for x in v if x > 0])
+    for k, v in d.items()
+    if any(x > 0 for x in v)
+}
+
+data = {"a": [1, 2, -3], "b": [-1, -2], "c": [3, 4, 5]}
+print(process_dict(data)) # вывод: {'a': 2, 'c': 60}
+
+
+#26
+def remove_elements_with_common_digits(s):
+    digit_counts = {}
+    all_numbers = list(s)
+
+    for num in all_numbers:
+        for digit in set(str(abs(num))):
+            digit_counts[digit] = digit_counts.get(digit, 0) + 1
+    result = set()
+    for num in all_numbers:
+        has_common = False
+        for digit in str(abs(num)):
+            if digit_counts[digit] > 1:
+                has_common = True
+                break
+        if not has_common:
+            result.add(num)
+
+    return result
+
+numbers = {12, 34, 56, 17}
+print(remove_elements_with_common_digits(numbers))
+# вывод: {34, 56, 17}
+
+#27
+is_prime = lambda n: n > 1 and all(n % i != 0 for i in range(2, int(n**0.5) + 1))
+
+filter_dict = lambda d: {k: v for k, v in d.items() if is_prime(v) and len(k) % 2 != 0}
+
+data = {"cat": 7, "doggy": 11, "bird": 4, "fish": 13}
+print(filter_dict(data)) # вывод: {'cat': 7, 'doggy': 11}
+
+#28
+def sorted_unique_chars(strings):
+    unique_chars = set()
+    for s in strings:
+        for char in s:
+            if not char.isdigit() and char != ' ':
+                unique_chars.add(char)
+    return sorted(list(unique_chars))
+
+list_strings = ["hello 123", "world!", "python 3"]
+print(sorted_unique_chars(list_strings))
+# вывод: ['!', 'd', 'e', 'h', 'l', 'n', 'o', 'p', 'r', 't', 'w', 'y']
+
+#29
+sort_keys = lambda d: sorted(d.keys(), key=lambda k: (d[k] % 10, k))
+
+data = {"apple": 25, "banana": 12, "cherry": 32, "date": 40}
+print(sort_keys(data)) # вывод: ['date', 'banana', 'cherry', 'apple']
+
+#30
+def partition_by_sum_parity(s):
+    even_sum_set = set()
+    odd_sum_set = set()
+
+    for num in s:
+        digit_sum = sum(int(d) for d in str(abs(num)))
+        if digit_sum % 2 == 0:
+            even_sum_set.add(num)
+        else:
+            odd_sum_set.add(num)
+
+    return (even_sum_set, odd_sum_set)
+
+
+numbers = {12, 34, 56, 78, 11}
+print(partition_by_sum_parity(numbers))
+# вывод: ({11, 56, 34}, {12, 78})
+
+
+#31
+filter_dict_unique = lambda d: {
+    k: v for k, v in d.items()
+    if len(v) == len(set(v)) and all(len(s) > 3 for s in v)}
+
+data = {"group1": ["apple", "banana"], "group2": ["cat", "dog"],
+        "group3": ["apple", "apple"]}
+print(filter_dict_unique(data)) # вывод: {'group1': ['apple', 'banana']}
+
+
+#32
+def pairwise_intersections(sets_list):
+    if len(sets_list) < 2:
+        return []
+
+    result = []
+    for i in range(len(sets_list) - 1):
+        intersection = sets_list[i].intersection(sets_list[i + 1])
+        result.append(intersection)
+
+    return result
+
+list_of_sets = [{1, 2, 3}, {2, 3, 4}, {3, 4, 5}]
+print(pairwise_intersections(list_of_sets))  # вывод: [{2, 3}, {3, 4}]
+
+#33
+avg_filter = lambda d: (
+    lambda all_vals: {
+        k: v for k, v in d.items()
+        if (sum(v) / len(v)) > (sum(all_vals) / len(all_vals))}
+)([x for vals in d.values() for x in vals])
+
+data = {"A": [10, 20], "B": [1, 2], "C": [15, 25]}
+print(avg_filter(data)) # вывод: {'A': [10, 20], 'C': [15, 25]}
+
+
+#34
+def top_k_smallest_unique(nums, k):
+    unique_sorted = sorted(list(set(nums)))
+    return set(unique_sorted[:k])
+
+numbers = [5, 1, 2, 1, 5, 3, 4, 2]
+k = 3
+print(top_k_smallest_unique(numbers, k)) # вывод: {1, 2, 3}
+
+#35
+filter_dict_logic = lambda d: {
+    k: v for k, v in d.items()
+    if not (v % 3 == 0 or len(k) % 2 == 0)}
+
+data = {"apple": 10, "pear": 9, "kiwi": 8, "banana": 7}
+print(filter_dict_logic(data)) # вывод: {'apple': 10, 'banana': 7}
+
+
+#36
+from itertools import combinations
+
+def all_subsets_of_size_k(s, k):
+    return [set(c) for c in combinations(s, k)]
+
+my_set = {1, 2, 3}
+size = 2
+print(all_subsets_of_size_k(my_set, size))
+# вывод: [{1, 2}, {1, 3}, {2, 3}]
+
+#37
+import math
+
+process_dict_factorial = lambda d: {
+    k: (math.factorial(v) if v < 6 else v)
+    for k, v in d.items()}
+
+data = {"a": 3, "b": 6, "c": 5}
+print(process_dict_factorial(data)) # вывод: {'a': 6, 'b': 6, 'c': 120}
+
+#38
+def multi_symmetric_difference(sets_list):
+    if not sets_list:
+        return set()
+
+    result = sets_list[0]
+    for i in range(1, len(sets_list)):
+        result = result.symmetric_difference(sets_list[i])
+
+    return result
+
+list_of_sets = [{1, 2, 3}, {2, 3, 4}, {3, 4, 5}]
+print(multi_symmetric_difference(list_of_sets))  # вывод: {1, 3, 5}
+
+#39
+vowels = "aeiouAEIOU"
+sort_dict_complex = lambda d: sorted(
+    d.keys(),
+    key=lambda k: (sum(1 for char in k if char in vowels), -d[k]))
+
+data = {"apple": 5, "banana": 10, "kiwi": 10, "sky": 2}
+print(sort_dict_complex(data))
+# вывод: ['sky', 'kiwi', 'apple', 'banana']
+
+#40
+import string
+
+def analyze_dict_keys(d):
+    unique_chars = set()
+    for key in d.keys():
+        if isinstance(key, str):
+            if any(char.isdigit() for char in key):
+                continue
+
+            for char in key:
+                if char != ' ' and char not in string.punctuation:
+                    unique_chars.add(char)
+
+    return unique_chars
+
+data = {"user name": 1, "p@ssword": 2, "id123": 3, "test": 4}
+print(analyze_dict_keys(data))
+# вывод: {'u', 's', 'e', 'r', 'n', 'a', 'm', 't'}
