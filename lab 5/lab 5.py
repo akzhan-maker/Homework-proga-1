@@ -302,3 +302,32 @@ print("\n  ")
 new_iterator = OrderIterator([Order(999, 100)])
 print(next(new_iterator))
 '''
+#11
+import numpy as np
+
+
+class Product:
+    def __init__(self, product_id, name, price, category):
+        self.product_id = product_id
+        self.name = name
+        self.price = float(price)
+        self.category = category
+
+
+def create_price_array(products: list):
+    prices = [p.price for p in products]
+
+    return np.array(prices, dtype=float)
+
+products = [
+    Product(1, "Laptop", 1200.0, "Electronics"),
+    Product(2, "Mouse", 25.0, "Electronics")
+]
+price_array = create_price_array(products)
+
+print(" Task 11")
+print(price_array)
+
+print("\n data")
+print(type(price_array))
+print(f"Тип элементов внутри: {price_array.dtype}")
