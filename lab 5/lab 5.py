@@ -260,7 +260,7 @@ gen = price_stream(catalog)
 
 for price in gen:
     print(f"Цена следующего товара: {price} тг")
-'''
+
 #10
 class Order:
     def __init__(self, order_id, total):
@@ -301,3 +301,4 @@ for order in iterator:
 print("\n  ")
 new_iterator = OrderIterator([Order(999, 100)])
 print(next(new_iterator))
+'''
