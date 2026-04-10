@@ -301,7 +301,7 @@ for order in iterator:
 print("\n  ")
 new_iterator = OrderIterator([Order(999, 100)])
 print(next(new_iterator))
-'''
+
 #11
 import numpy as np
 
@@ -331,3 +331,134 @@ print(price_array)
 print("\n data")
 print(type(price_array))
 print(f"Тип элементов внутри: {price_array.dtype}")
+
+#12
+import numpy as np
+
+
+def calculate_stats(price_array):
+    mean_price = np.mean(price_array)
+
+    median_price = np.median(price_array)
+
+    return (mean_price, median_price)
+
+
+prices = np.array([1200.0, 25.0, 450.0])
+
+stats = calculate_stats(prices)
+
+print(f" result: ({round(stats[0], 2)}, {stats[1]})")
+
+#13
+import numpy as np
+
+
+def normalize_prices(prices):
+    min_val = np.min(prices)
+    max_val = np.max(prices)
+
+    normalized = (prices - min_val) / (max_val - min_val)
+
+    return normalized
+
+prices = np.array([1200.0, 25.0, 450.0])
+
+norm_prices = normalize_prices(prices) 
+print(f" result: {np.round(norm_prices, 4)}")
+
+#14
+import numpy as np
+
+
+class Product:
+    def __init__(self, product_id, name, price, category):
+        self.product_id = product_id
+        self.name = name
+        self.price = price
+        self.category = category
+
+
+def create_category_array(products: list):
+
+    categories = [p.category for p in products]
+
+    return np.array(categories)
+
+products_list = [
+    Product(1, "Laptop", 1200.0, "Electronics"),
+    Product(2, "T-Shirt", 20.0, "Clothing")
+]
+category_array = create_category_array(products_list)
+
+print("Task 14")
+print(category_array)
+
+#15
+import numpy as np
+
+
+def count_unique_categories_np(category_array):
+    unique_elements = np.unique(category_array)
+
+    return unique_elements.size
+
+input_array = np.array(["Electronics", "Clothing", "Electronics"])
+
+result = count_unique_categories_np(input_array)
+
+print( result )
+
+#16
+import numpy as np
+
+
+class Product:
+    def __init__(self, product_id, name, price, category):
+        self.product_id = product_id
+        self.name = name
+        self.price = float(price)
+        self.category = category
+
+    def __repr__(self):
+        return f"Product({self.product_id}, '{self.name}', {self.price}, '{self.category}')"
+
+
+def get_expensive_products(products_list, price_array):
+
+    mean_price = np.mean(price_array)
+
+    expensive_items = [p for p in products_list if p.price > mean_price]
+
+    return expensive_items
+
+
+products = [
+    Product(1, "Laptop", 1200.0, "Electronics"),
+    Product(2, "Mouse", 25.0, "Electronics"),
+    Product(3, "Monitor", 450.0, "Electronics")
+]
+
+prices = np.array([p.price for p in products])
+
+result = get_expensive_products(products, prices)
+
+print(f"price: {np.mean(prices):.2f}")
+print(result)
+
+#17
+import numpy as np
+
+
+def apply_discount(price_array):
+    new_prices = price_array * 0.9
+
+    return new_prices
+
+prices = np.array([1200.0, 25.0, 450.0])
+
+discounted_prices = apply_discount(prices)
+
+print(f" : {prices}")
+print(f" +10%: {discounted_prices}")
+'''
