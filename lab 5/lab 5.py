@@ -106,7 +106,7 @@ class MockProduct:
 test_list = [MockProduct("Mouse", 20), MockProduct("Monitor", 300)]
 filtered = filter_by_price(test_list, 100)
 print(f"Товары дороже 100: {[p.name for p in filtered]}")
-'''
+
 #6
 import datetime
 
@@ -206,3 +206,98 @@ print(my_order)
 print("\nУдаление товара (ID: 2)")
 my_order.remove_product(2)
 print(my_order)
+
+#8
+class Product:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+    def __repr__(self):
+        return f"{self.name} ({self.price} тг)"
+
+
+class Order:
+    def __init__(self, products: list):
+        self.products = products
+
+    def most_expensive_products(self, n: int) -> list:
+        sorted_products = sorted(self.products, key=lambda p: p.price, reverse=True)
+        return sorted_products[:n]
+
+
+prods = [
+    Product("Мышь", 5000),
+    Product("Монитор", 85000),
+    Product("Клавиатура", 12000),
+    Product("USB-хаб", 3000)
+]
+my_order = Order(prods)
+
+print(" Task 8")
+top_products = my_order.most_expensive_products(2)
+for p in top_products:
+    print(p)
+
+#9
+class Product:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+def price_stream(products: list):
+    for product in products:
+        yield product.price
+
+catalog = [
+    Product("Наушники", 25000),
+    Product("Коврик", 4500),
+    Product("Веб-камера", 18000)
+]
+
+print(" Task 9")
+gen = price_stream(catalog)
+
+for price in gen:
+    print(f"Цена следующего товара: {price} тг")
+'''
+#10
+class Order:
+    def __init__(self, order_id, total):
+        self.order_id = order_id
+        self.total = total
+
+    def __str__(self):
+        return f"Заказ #{self.order_id} на сумму {self.total} тг"
+
+class OrderIterator:
+    def __init__(self, orders: list):
+        self.orders = orders
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index < len(self.orders):
+            order = self.orders[self.index]
+            self.index += 1
+            return order
+        else:
+            raise StopIteration
+
+orders_list = [
+    Order(501, 12500),
+    Order(502, 3400),
+    Order(503, 8900)
+]
+
+iterator = OrderIterator(orders_list)
+
+print(" Task 10")
+for order in iterator:
+    print(order)
+
+print("\n  ")
+new_iterator = OrderIterator([Order(999, 100)])
+print(next(new_iterator))
