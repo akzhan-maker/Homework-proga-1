@@ -17,7 +17,7 @@ class User:
         print(f"User {self._name} deleted")
 
 
-print("--- Задача 1 ---")
+print(" Task 1 ")
 u = User(1, "  john doe  ", "John@Example.COM")
 print(f"Результат: {u}")
 
@@ -36,7 +36,7 @@ class User:
     def __str__(self):
         return f"User(id={self._id}, name='{self._name}', email='{self._email}')"
 
-print("\n--- Задача 2 ---")
+print("\n Task 2 ")
 u_from_str = User.from_string("2, Alice Wonderland , alice@wonder.com")
 print(f"Создано из строки: {u_from_str}")
 
@@ -60,7 +60,7 @@ class Product:
     def __str__(self):
         return f"Product: {self.name} ({self.price}$)"
 
-print("\n--- Задача 3 ---")
+print("\n Task 3 ")
 p1 = Product(1, "Laptop", 1200.0, "Tech")
 p2 = Product(1, "Laptop", 1200.0, "Tech")
 print(f"Словарь продукта: {p1.to_dict()}")
@@ -81,7 +81,7 @@ class Inventory:
         return {p.id: p.name for p in self.products}
 
 
-print("\n--- Задача 4 ---")
+print("\n Task 4 ")
 
 
 class SimpleP:
@@ -99,7 +99,7 @@ def filter_by_price(products_list, min_price):
     is_expensive = lambda p: p.price >= min_price
     return [p for p in products_list if is_expensive(p)]
 
-print("\n--- Задача 5 ---")
+print("\n Task 5 ")
 class MockProduct:
     def __init__(self, name, price): self.name = name; self.price = price
 
@@ -108,3 +108,101 @@ filtered = filter_by_price(test_list, 100)
 print(f"Товары дороже 100: {[p.name for p in filtered]}")
 '''
 #6
+import datetime
+
+
+class User:
+    def __init__(self, user_id):
+        self.user_id = user_id
+
+
+class Product:
+    def __init__(self, product_id):
+        self.product_id = product_id
+
+
+class Logger:
+    @staticmethod
+    def log_action(user: User, action: str, product: Product, filename: str):
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_entry = f"{timestamp};{user.user_id};{action};{product.product_id}\n"
+
+        with open(filename, "a", encoding="utf-8") as file:
+            file.write(log_entry)
+
+    @staticmethod
+    def read_logs(filename: str) -> list:
+        logs = []
+        try:
+            with open(filename, "r", encoding="utf-8") as file:
+                for line in file:
+                    parts = line.strip().split(";")
+                    if len(parts) == 4:
+                        logs.append({
+                            'timestamp': parts[0],
+                            'user_id': parts[1],
+                            'action': parts[2],
+                            'product_id': parts[3]
+                        })
+        except FileNotFoundError:
+            pass
+        return logs
+
+
+user = User(user_id=77)
+prod = Product(product_id=1024)
+file_name = "logs.txt"
+Logger.log_action(user, "view_details", prod, file_name)
+Logger.log_action(user, "add_to_cart", prod, file_name)
+
+print("Task 6 Содержимое лог-файла (в виде словарей) ")
+log_data = Logger.read_logs(file_name)
+for entry in log_data:
+    print(entry)
+
+#7
+class User:
+    def __init__(self, name):
+        self.name = name
+
+class Product:
+    def __init__(self, product_id, name, price):
+        self.product_id = product_id
+        self.name = name
+        self.price = price
+
+class Order:
+    def __init__(self, order_id: int, user: User, products: list = None):
+        self.id = order_id
+        self.user = user
+        self.products = products if products is not None else []
+
+    def add_product(self, product: Product):
+        self.products.append(product)
+
+    def remove_product(self, product_id: int):
+        self.products = [p for p in self.products if p.product_id != product_id]
+
+    def total_price(self) -> float:
+        return sum(p.price for p in self.products)
+
+    def __str__(self):
+        item_names = ", ".join([p.name for p in self.products])
+        return (f"Заказ #{self.id} | Клиент: {self.user.name}\n"
+                f"Товары: {item_names if item_names else 'Пусто'}\n"
+                f"Итоговая сумма: {self.total_price()} тенге")
+
+customer = User("Алихан")
+p1 = Product(1, "Клавиатура", 15000)
+p2 = Product(2, "Мышь", 8000)
+
+my_order = Order(101, customer)
+
+print("Task 7 Добавление товаров ")
+my_order.add_product(p1)
+my_order.add_product(p2)
+print(my_order)
+
+print("\nУдаление товара (ID: 2)")
+my_order.remove_product(2)
+print(my_order)
