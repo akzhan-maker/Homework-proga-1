@@ -21,7 +21,6 @@ class Player:
 
     def __del__(self):
         print(f"Player {self._name} удалён")
-
 #2 esep
     @classmethod
     def from_string(cls, data: str):
@@ -314,5 +313,122 @@ w.handle_event(Event("ATTACK", {"damage": 50}))
 m.handle_event(Event("LOOT", {"item": Item(1, "Sword", 50)}))
 print(w._hp)
 print(m.inventory.get_items()[0])
+#16 esep
+class Player:
+    def __init__(self, name, hp, inventory):
+        self.name = name
+        self.__hp = hp
+        self.__inventory = inventory
+    @property
+    def hp(self):
+        return self.__hp
+    @hp.setter
+    def hp(self, value):
+        if value < 0:
+            self.__hp = 0
+        else:
+            self.__hp = value
+    @property
+    def inventory(self):
+        return self.__inventory
+
+#17 esep
+    def __del__(self):
+        print(f"Player {self.name} удалён")
+
+p1 = Player("Hunter", 100, ["Sword", "Shield"])
+
+print(f"Здоровье игрока: {p1.hp}")
+print(f"Инвентарь: {p1.inventory}")
+
+p1.hp -= 20
+print(f"Здоровье после урона: {p1.hp}")
+
+del p1
+#18
+class Inventory:
+    def __init__(self, items):
+        self.items = items
+        self.index = 0
+
+    def __iter__(self):
+        self.index = 0
+        return self
+
+    def __next__(self):
+        if self.index < len(self.items):
+            item = self.items[self.index]
+            self.index += 1
+            return item
+        else:
+            raise StopIteration
+
+my_inv = Inventory([
+    {"name": "Sword", "power": 50},
+    {"name": "Shield", "power": 10},
+    {"name": "Magic Wand", "power": 80}])
+
+powerful_items = [item['name'] for item in my_inv if item['power'] > 40]
+print(f"Мощные предметы: {powerful_items}")
+
+#19
+def analyze_inventory(inventory_list):
+    unique_names = {item['name'] for item in inventory_list}
+
+    top_item = max(inventory_list, key=lambda x: x['power'])
+
+    analysis = {
+        "unique_items": unique_names,
+        "top_power": top_item}
+
+    return analysis
+items_data = [
+    {"name": "Sword", "power": 50},
+    {"name": "Sword", "power": 50},
+    {"name": "Potion", "power": 5},
+    {"name": "Magic Wand", "power": 80}]
+
+result = analyze_inventory(items_data)
+print(f"Уникальные предметы: {result['unique_items']}")
+print(f"Самый мощный предмет: {result['top_power']['name']} ({result['top_power']['power']})")
+#20
+import json
+
+def main():
+    items_pool = [
+        {"name": "Excalibur", "power": 100},
+        {"name": "Wooden Shield", "power": 20},
+        {"name": "Health Potion", "power": 10},
+        {"name": "Dragon Armor", "power": 150}]
+
+    players = [
+        Player("Arthur", 100, [items_pool[0], items_pool[1]]),
+        Player("Lancelot", 120, [items_pool[3]]),
+        Player("Merlin", 80, [items_pool[2], items_pool[2]])]
+    events = [
+        {"player": "Arthur", "type": "damage", "value": 30},
+        {"player": "Merlin", "type": "item_found", "item": items_pool[0]},
+        {"player": "Lancelot", "type": "damage", "value": 50}]
+    for event in events:
+        for p in players:
+            if p.name == event["player"]:
+                if event["type"] == "damage":
+                    p.hp -= event["value"]
+            elif event["type"] == "item_found":
+                p.inventory.append(event["item"])
+    with open("game_logs.json", "w", encoding="utf-8") as f:
+        log_data = {"events_count": len(events), "status": "completed"}
+        json.dump(log_data, f)
+
+    print("--- Логи записаны в game_logs.json ---")
+    low_hp_player = min(players, key=lambda x: x.hp)
+    richest_player = max(players, key=lambda x: len(x.inventory))
+
+    print(f"Результаты симуляции:")
+    print(f"- Самый раненый (низкий HP): {low_hp_player.name} ({low_hp_player.hp} HP)")
+    print(f"- Больше всего предметов: {richest_player.name} ({len(richest_player.inventory)} шт.)")
+    print(f"- Всего обработано событий: {len(events)}")
+
 if __name__ == '__main__':
-    app.run(port=5001)
+    main()
+    app.run(port=5001,debug=True)
