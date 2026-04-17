@@ -380,14 +380,12 @@ def task_25():
     }
 @app.get("/task26")
 def task_26():
-    # Задача 26: Средний чек (mean)
     df = get_sample_df()
     result = df.groupby("user_name")["total"].mean().reset_index()
     return result.rename(columns={"total": "mean_total"}).to_dict(orient="records")
 
 @app.get("/task27")
 def task_27():
-    # Задача 27: Подсчет количества заказов (count)
     df = get_sample_df()
     result = df.groupby("user_name")["order_id"].count().reset_index()
     return result.rename(columns={"order_id": "orders_count"}).to_dict(orient="records")
@@ -395,21 +393,13 @@ def task_27():
 
 @app.get("/task28")
 def task_28():
-    # Задача 28 — Средняя цена продукта в каждой категории
-
-    # 1. Подготовка данных (согласно примеру на скриншоте)
     products_data = [
         {"id": 1, "name": "Laptop", "category": "Electronics", "price": 1200},
         {"id": 2, "name": "Mouse", "category": "Electronics", "price": 25},
         {"id": 3, "name": "Shirt", "category": "Clothing", "price": 20}
     ]
     df = pd.DataFrame(products_data)
-
-    # 2. Группировка по категории и вычисление средней цены
-    # Используем .mean() и сбрасываем индекс для корректного JSON
     result_df = df.groupby("category")["price"].mean().reset_index()
-
-    # 3. Переименовываем колонку для точного соответствия выходу
     result_df = result_df.rename(columns={"price": "mean_price"})
 
     return {
@@ -420,16 +410,11 @@ def task_28():
 
 @app.get("/task29")
 def task_29():
-    # Задача 29 — Добавление столбца со скидкой 10%
-
-    # 1. Исходные данные
     data = [
         {"id": 1, "name": "Laptop", "price": 1200},
         {"id": 2, "name": "Mouse", "price": 25}
     ]
     df = pd.DataFrame(data)
-
-    # 2. Вычисляем цену со скидкой (100% - 10% = 0.9)
     df['discounted_price'] = df['price'] * 0.9
 
     return {
@@ -440,17 +425,12 @@ def task_29():
 
 @app.get("/task30")
 def task_30():
-    # Задача 30 — Сортировка по цене (убывание)
-
-    # 1. Данные из примера
     data = [
         {"id": 1, "name": "Laptop", "price": 1200},
         {"id": 2, "name": "Mouse", "price": 25},
         {"id": 3, "name": "Monitor", "price": 450}
     ]
     df = pd.DataFrame(data)
-
-    # 2. Сортируем: ascending=False означает "по убыванию"
     sorted_df = df.sort_values(by="price", ascending=False)
 
     return {
@@ -461,16 +441,12 @@ def task_30():
 
 @app.get("/task31")
 def task_31():
-    # Задача 31 — Добавление колонки quantity
-
-    # 1. Исходные данные (согласно скриншоту)
     data = [
         {"order_id": 101, "product_name": "Laptop", "price": 1200},
         {"order_id": 102, "product_name": "Mouse", "price": 25}
     ]
     df = pd.DataFrame(data)
 
-    # 2. Добавляем новую колонку со значением 1 для всех строк
     df['quantity'] = 1
 
     return {
