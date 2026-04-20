@@ -79,8 +79,7 @@ def task_4():
 
 
 @app.get("/task5")
-def task_5(min_price: float = 100):
-    # Задача 5: Фильтрация через lambda
+def task_5(min_price: float = 100): 
     test_list = [Product(1, "Mouse", 20), Product(2, "Monitor", 300)]
     filtered = [p.to_dict() for p in test_list if p.price >= min_price]
     return {"filtered_products": filtered}
@@ -713,4 +712,4 @@ def task_45():
     return {
         "status": "success",
         "result": report.to_dict(orient="records")
-    }
+    } 
