@@ -1,4 +1,4 @@
-'''
+
 #1
 import pandas as pd
 df = pd.read_excel('catalog_products.xlsx')
@@ -542,4 +542,3 @@ plt.xlabel('Истинная цена')
 plt.ylabel('Предсказанная цена')
 plt.grid(True)
 plt.show()
-'''
