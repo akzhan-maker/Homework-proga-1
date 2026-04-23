@@ -1,3 +1,4 @@
+'''
 from fastapi import FastAPI, HTTPException
 import numpy as np
 import pandas as pd
@@ -713,3 +714,4 @@ def task_45():
         "status": "success",
         "result": report.to_dict(orient="records")
     } 
+'''

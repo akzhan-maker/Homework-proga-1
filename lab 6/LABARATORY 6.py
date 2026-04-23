@@ -1,4 +1,4 @@
-'''
+'
 #1
 import pandas as pd
 
@@ -25,7 +25,6 @@ except FileNotFoundError:
     print(f"Ошибка: Файл '{file_name}' не найден в папке со скриптом.")
 except Exception as e:
     print(f"Произошла ошибка: {e}")
-
 
 #2
 import pandas as pd
@@ -859,4 +858,3 @@ with pd.ExcelWriter('catalog_final_report.xlsx') as writer:
 
 print("--- Задача 45 завершена ---")
 print("Файл 'catalog_final_report.xlsx' готов к презентации.")
-'''
